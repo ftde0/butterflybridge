@@ -1052,11 +1052,11 @@ module.exports = {"register": function(app) {
         let status = req.originalUrl.split("statuses/retweet/")[1]
                                     .split("?")[0]
                                     .split(".json")[0]
-        if(!status || !cache.get("postLookupTable")[status]) {
+        if(!status || !cache.getTable("postLookupTable")[status]) {
             res.sendStatus(404);
             return;
         }
-        let post = cache.get("postLookupTable")[status]
+        let post = cache.getTable("postLookupTable")[status]
         handleToken(req, () => {
             fetch("https://bsky.social/xrpc/com.atproto.server.getSession", {
                 "headers": createHeaders(req),
@@ -1112,11 +1112,11 @@ module.exports = {"register": function(app) {
         let status = req.originalUrl.split("favorites/create/")[1]
                                     .split("?")[0]
                                     .split(".json")[0]
-        if(!status || !cache.get("postLookupTable")[status]) {
+        if(!status || !cache.getTable("postLookupTable")[status]) {
             res.sendStatus(404);
             return;
         }
-        let post = cache.get("postLookupTable")[status]
+        let post = cache.getTable("postLookupTable")[status]
         handleToken(req, () => {
             fetch("https://bsky.social/xrpc/com.atproto.server.getSession", {
                 "headers": createHeaders(req),
@@ -1172,7 +1172,7 @@ module.exports = {"register": function(app) {
         let status = req.originalUrl.split("favorites/destroy/")[1]
                                     .split("?")[0]
                                     .split(".json")[0]
-        if(!status || !cache.get("postLookupTable")[status]) {
+        if(!status || !cache.getTable("postLookupTable")[status]) {
             res.sendStatus(404);
             return;
         }
@@ -1216,7 +1216,7 @@ module.exports = {"register": function(app) {
                     path = [
                         tokens.site,
                         "/xrpc/app.bsky.feed.getPostThread",
-                        "?uri=" + cache.get("postLookupTable")[status][0],
+                        "?uri=" + cache.getTable("postLookupTable")[status][0],
                         "&depth=0"
                     ].join("")
                     fetch(path, {
@@ -1238,7 +1238,7 @@ module.exports = {"register": function(app) {
     app.get("/1/favorites.json", (req, res, next) => {
         let tokens = userTokens[req.headers["x-client-uuid"]]
         let requester = req.headers["x-client-uuid"] || 1
-        if((!req.query.id || !cache.get("userLookupTable")[req.query.id])
+        if((!req.query.id || !cache.getTable("userLookupTable")[req.query.id])
         && req.query.id !== "38895958") {
            res.sendStatus(400);
            return; 
@@ -1294,7 +1294,7 @@ module.exports = {"register": function(app) {
             })
         } else {
             handleToken(req, () => {
-                utils.getIdFromHandle(cache.get("userLookupTable")[user], (did) => {
+                utils.getIdFromHandle(cache.getTable("userLookupTable")[user], (did) => {
                     getLikesByDid(did)
                 })
             })
@@ -1304,11 +1304,11 @@ module.exports = {"register": function(app) {
     app.get("/1/users/show.json", (req, res) => {
         //let tokens = userTokens[req.headers["x-client-uuid"]]
         if(!req.query.user_id
-        || !cache.get("userLookupTable")[req.query.user_id]) {
+        || !cache.getTable("userLookupTable")[req.query.user_id]) {
             res.sendStatus(404)
             return;
         }
-        let user = cache.get("userLookupTable")[req.query.user_id]
+        let user = cache.getTable("userLookupTable")[req.query.user_id]
         utils.getIdFromHandle(user, (did) => {
             handle = user
             handleToken(req, () => {
