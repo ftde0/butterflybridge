@@ -1,0 +1,23 @@
+{
+  "name": "butterflybridge",
+  "version": "1.0",
+  "description": "bsky to legacy twitter api bridge",
+  "main": "bsky-twitter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bsky",
+    "twitter",
+    "apiv1",
+    "v1",
+    "bluesky"
+  ],
+  "dependencies": {
+    "express": "latest",
+    "node-fetch": "^2.6.7",
+    "readline-sync": "^1.4.10"
+  },
+  "author": "dxegom",
+  "license": "ISC"
+}
