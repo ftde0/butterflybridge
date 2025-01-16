@@ -185,6 +185,9 @@ module.exports = {"register": function(app) {
         }
         catch(error){}
         uploadContentTypes[fname + "." + ext] = ct;
+        if(!fs.existsSync("./bsky-imgs/")) {
+            fs.mkdirSync(__dirname + "/bsky-imgs/")
+        }
         fs.writeFile("bsky-imgs/" + fname + "." + ext, file, (e) => {
             if(!e) {
                 res.status(200)
